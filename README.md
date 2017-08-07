@@ -31,7 +31,6 @@ public static boolean putCodeInfoVO(String code, CodeInfoVO codeInfoVO){
 
 
 ### 界面缓存获取及一键刷新思路
-
-
+### java本地缓存的运用
 ### redis部署模式
 
