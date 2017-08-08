@@ -70,5 +70,9 @@ public LocalCache(long size, long expire, TimeUnit expireUnit){
 ### redis部署模式
 * 1.单机模式
 * 2.集群模式
+多台机，有主从节点。
+http://www.cnblogs.com/wuxl360/p/5920330.html
 * 3.哨兵模式
+Sentinel（哨兵）是Redis 的高可用性解决方案：由一个或多个Sentinel 实例 组成的Sentinel 系统可以监视任意多个主服务器，以及这些主服务器属下的所有从服务器，并在被监视的主服务器进入下线状态时，自动将下线主服务器属下的某个从服务器升级为新的主服务器。
+http://www.cnblogs.com/jaycekon/p/6237562.html
 
