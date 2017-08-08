@@ -31,6 +31,44 @@ public static boolean putCodeInfoVO(String code, CodeInfoVO codeInfoVO){
 
 
 ### 界面缓存获取及一键刷新思路
+![](https://raw.githubusercontent.com/tsmairc/CacheDesign/master/img/refresh.png)
+类似做成上图的效果，可以通过反射找到所有缓存实现类，然后循环去调用缓存实现类的刷新方法。对缓存分组可以通过注解完成，例如：
+```java
+@TypeCache( typeCode="demo")
+```
+反射读取时，顺便对其分类。
+
 ### java本地缓存的运用（guava）
+好好利用java本地缓存能更进一步加快缓存的读取速度，像读取，设置，删除这三种操作，例如读取，先读java本地缓存，为空的话再读redis。
+```java
+//这里直接封装到Cache里面，因为这个方法对所有缓存实现类是通用的，其它三种操作一样的。
+T value = null;
+value = getLocalCache(pkey, key, value);
+if(value == null){
+	value = (T)CacheFactory.getCacheClient().get(getNamespace(), pkey, key);
+	if(value != null){
+		putLocalCache(pkey, key, value);
+	}
+}
+```
+guava的缓存操作基本上与redis相似，下面是实例化的一些例子。
+```java
+public LocalCache(long size){
+	cache = CacheBuilder.newBuilder().maximumSize(size).build();
+}
+
+public LocalCache(long size, long expire, TimeUnit expireUnit){
+	cache = CacheBuilder.newBuilder()
+		.maximumSize(size)
+		.expireAfterWrite(expire, expireUnit).build();
+}
+```
+<p>
+下面介绍下刷新缓存的后台操作，分布式时刷新，多台机如何同步这确是一个大问题，这里直接通过mq去发送信息刷新，然后每一台机做广播消费，先清空机器本地缓存，再清redis。
+</p>
+
 ### redis部署模式
+* 1.单机模式
+* 2.集群模式
+* 3.哨兵模式
 
