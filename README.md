@@ -32,7 +32,7 @@ public static boolean putCodeInfoVO(String code, CodeInfoVO codeInfoVO){
 
 ### 界面缓存获取及一键刷新思路
 ![](https://raw.githubusercontent.com/tsmairc/CacheDesign/master/img/refresh.png)
-类似做成上图的效果，可以通过反射找到所有缓存实现类，然后循环去调用缓存实现类的刷新方法。对缓存分组可以通过注解完成，例如：
+<br/>类似做成上图的效果，可以通过反射找到所有缓存实现类，然后循环去调用缓存实现类的刷新方法。对缓存分组可以通过注解完成，例如：
 ```java
 @TypeCache( typeCode="demo")
 ```
